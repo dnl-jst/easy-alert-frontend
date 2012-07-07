@@ -1,0 +1,29 @@
+<style type="text/css">
+	td.state_ok {
+		background-color: green;
+	}
+
+	td.state_warning {
+		background-color: yellow;
+	}
+
+	td.state_critical {
+		background-color: red;
+	}
+</style>
+<table>
+	<tr>
+		<th>State</th>
+		<th>Host</th>
+		<th>Service</th>
+		<th>Last check</th>
+	</tr>
+	<?php foreach ($this->oView->aServices as $aService): ?>
+	<tr>
+		<td class="state_<?= strtolower($aService['last_state']); ?>"><?= htmlspecialchars($aService['last_state']); ?></td>
+		<td><?= htmlspecialchars($aService['host_name']); ?></td>
+		<td><a href="/service/detail/?service_id=<?= $aService['hs_id'] ?>"><?= htmlspecialchars($aService['service_name']); ?></a></td>
+		<td><?= htmlspecialchars($aService['last_run']); ?></td>
+	</tr>
+	<?php endforeach; ?>
+</table>

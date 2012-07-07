@@ -1,0 +1,6 @@
+<h3>Service details for <?= htmlspecialchars($this->oView->serviceName); ?> on <?= htmlspecialchars($this->oView->hostName); ?></h3>
+<?php foreach($this->oView->aGraphs as $sKey => $aGraph): ?>
+<div>
+	<img src="/graph/service/?service_id=<?= $this->oView->serviceId; ?>&amp;graph=<?= $sKey; ?>" />
+</div>
+<?php endforeach; ?>
