@@ -71,9 +71,9 @@ class IndexController extends EA_Controller
 		$aServices = $oDb->fetchAll($oQuery);
 
 		$aStateCount = array(
-			EA_Check_Abstract_Response::STATE_CRITICAL => 0+ mt_rand(1,10),
-			EA_Check_Abstract_Response::STATE_WARNING => 0+ mt_rand(1,10),
-			EA_Check_Abstract_Response::STATE_OK => 0+ mt_rand(1,10)
+			EA_Check_Abstract_Response::STATE_CRITICAL => 0,
+			EA_Check_Abstract_Response::STATE_WARNING => 0,
+			EA_Check_Abstract_Response::STATE_OK => 0
 		);
 
 		foreach ($aServices as $aService)
@@ -89,7 +89,6 @@ class IndexController extends EA_Controller
 		$response = array();
 		$response['aStateCount'] = $aStateCount;
 		$response['iTotalServices'] = count($aServices);
-		$response['iTotalServices'] = array_sum($aStateCount);
 
 		$this->disableLayout();
 		echo json_encode($response);
