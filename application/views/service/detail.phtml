@@ -1,6 +1,64 @@
 <h3>Service details for <?= htmlspecialchars($this->oView->serviceName); ?> on <?= htmlspecialchars($this->oView->hostName); ?></h3>
-<?php foreach($this->oView->aGraphs as $sKey => $aGraph): ?>
+<script>
+	$(document).ready(function() {
+
+		var url = '/service/ajaxdata/?service_id=<?= $this->oView->serviceId; ?>';
+		var graphData = null;
+
+		<?php $iGraphCount = 0; ?>
+		<?php foreach ($this->oView->aGraphs as $sGraph => $aGraph): ?>
+
+		try
+		{
+			$.ajax({
+				async: false,
+				url: url + '&graph=<?= $sGraph; ?>',
+				dataType: 'json',
+				success: function(data) {
+					graphData = data;
+				}
+			});
+		}
+		catch (e)
+		{}
+
+		if (graphData[0].length == 0)
+		{
+			return;
+		}
+
+		var plot = $.jqplot('chart<?= $iGraphCount; ?>', graphData, {
+			title: '<?= htmlspecialchars($aGraph['title']); ?>',
+			axes: {
+				xaxis: {
+					renderer: $.jqplot.DateAxisRenderer,
+					tickOptions: {
+						formatString: '%Y-%m-%d %H:%M'
+					}
+				},
+				yaxis: {
+					tickOptions: {
+            					formatString: '%.2f'
+            				}
+				}
+			},
+			highlighter: {
+				show: true,
+				sizeAdjust: 7.5
+			},
+			cursor: {
+				show: false
+			},
+			series: [{
+				showMarker: false
+			}]
+		});
+		<?php $iGraphCount++; ?>
+		<?php endforeach; ?>
+	});
+</script>
 <div>
-	<img src="/graph/service/?service_id=<?= $this->oView->serviceId; ?>&amp;graph=<?= $sKey; ?>" />
+	<?php for ($i = 0; $i < count($this->oView->aGraphs); $i++): ?>
+		<div id="chart<?= $i; ?>"></div>
+	<?php endfor; ?>
 </div>
-<?php endforeach; ?>

@@ -1,0 +1,94 @@
+body {
+	background-color: silver;
+	font-family: Verdana;
+}
+
+#navigation {
+	border: 1px solid white;
+}
+
+#navigation .logo {
+	width: 150px;
+	padding: 35px;
+	float: left;
+	border: 1px solid green;
+	text-align: center;
+}
+
+#navigation ul.navigation {
+	float: left;
+
+}
+
+#navigation ul.navigation {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+#navigation ul.navigation li {
+	float: left;
+	border: 1px solid yellow;
+	text-align: center;
+}
+
+#navigation ul.navigation li a {
+	text-decoration: none;
+	padding: 35px;
+	width: 150px;
+	display: block;
+}
+
+#navigation ul.navigation li a:hover {
+	text-decoration: none;
+	background-color: white;
+}
+
+#content {
+	padding: 25px;
+	border: 1px solid white;
+	margin-top: 5px;
+	background-color: white;
+}
+
+#content table {
+	background-color: white;
+	width: 100%;
+	font-size: 0.8em;
+}
+
+div.clear {
+	clear: both;
+}
+
+table.services{
+	border: 1px solid #808080;
+}
+
+th {
+	background-color: #556b2f;
+	padding: 5px;
+	color: white;
+}
+
+td {
+	padding: 2px;
+	background-color: #faf0e6;
+	border: 1px dotted grey;
+}
+
+td.state_ok {
+	background-color: green;
+}
+
+td.state_warning {
+	background-color: yellow;
+}
+
+td.state_critical {
+	background-color: red;
+}
+
+td.host_name {
+	vertical-align: top;
+}

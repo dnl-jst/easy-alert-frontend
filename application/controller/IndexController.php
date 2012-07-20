@@ -27,13 +27,17 @@
 
 class IndexController extends EA_Controller
 {
-	public function __construct()
+	protected $oAuth;
+
+	public function init()
 	{
-		#
+		$this->oAuth = EA_Controller_Auth::getInstance();
+		$this->oAuth->authenticate('info@daniel-jost.de', 'test1234');
 	}
 
 	public function indexAction()
 	{
-		#
+		var_dump($this->oAuth->hasIdentity());
+		var_dump($this->oAuth->getIdentity());
 	}
 }

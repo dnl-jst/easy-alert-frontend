@@ -34,7 +34,13 @@ class ServiceController extends EA_Controller
 		$oDb = EA_Db::getInstance();
 		$aServices = $oDb->fetchAll($oQuery);
 
-		$this->oView->aServices = $aServices;
+		$aOrderedServices = array();
+		foreach ($aServices as $aService)
+		{
+			$aOrderedServices[$aService['host_name']][] = $aService;
+		}
+
+		$this->oView->aServices = $aOrderedServices;
 	}
 
 	public function detailAction()
@@ -66,5 +72,56 @@ class ServiceController extends EA_Controller
 		}
 
 		$this->oView->aGraphs = $aGraphs;
+	}
+
+	public function ajaxdataAction()
+	{
+		$iServiceId = (int) $this->oRequest->getParam('service_id');
+		$sGraph = (string) $this->oRequest->getParam('graph');
+
+		if ($iServiceId === 0 || $sGraph === '')
+		{
+			die('todo');
+		}
+
+		$oDb = EA_Db::getInstance();
+
+		$oQuery = new EA_Frontend_Queries_FetchHostService();
+		$oQuery->setHostServiceId($iServiceId);
+
+		$aHostService = $oDb->fetchRow($oQuery);
+
+		$oCheckGraphs = array();
+		$sCheckGraphClass = 'EA_Check_' . $aHostService['key_name'] . '_Graphs';
+		$sCheckResponseClass = 'EA_Check_' . $aHostService['key_name'] . '_Response';
+
+		if (class_exists($sCheckGraphClass))
+		{
+			$oCheckGraphObj = new $sCheckGraphClass();
+			$oCheckGraphs = $oCheckGraphObj->getAvailableGraphs();
+		}
+
+		if (!isset($oCheckGraphs[$sGraph]))
+		{
+			die('todo2');
+		}
+
+		$sGraphFunction = $oCheckGraphs[$sGraph]['function'];
+
+		$oQuery = new EA_Frontend_Queries_FetchHostServiceHistory();
+		$oQuery->setHostServiceId($iServiceId);
+		$oQuery->setInterval(1);
+
+		$aLogs = $oDb->fetchAll($oQuery);
+
+		$aJsonData = array(array());
+		foreach ($aLogs as $i => $aLog)
+		{
+			$oResponse = unserialize($aLog['response']);
+			$aJsonData[0][] = array($aLog['created'], $oResponse->$sGraphFunction());
+		}
+
+		$this->disableLayout();
+		echo json_encode($aJsonData);
 	}
 }

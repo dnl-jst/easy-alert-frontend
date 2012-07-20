@@ -1,15 +1,29 @@
 <html>
 <head>
-
+	<title>easy-alert</title>
+	<script type="text/javascript" src="/js/jqplot/jquery.min.js"></script>
+	<script type="text/javascript" src="/js/jqplot/jquery.jqplot.min.js"></script>
+	<script type="text/javascript" src="/js/jqplot/plugins/jqplot.highlighter.min.js"></script>
+	<script type="text/javascript" src="/js/jqplot/plugins/jqplot.cursor.min.js"></script>
+	<script type="text/javascript" src="/js/jqplot/plugins/jqplot.dateAxisRenderer.cleonello.js"></script>
+	<script type="text/javascript" src="/js/jqplot/plugins/jqplot.json2.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="/js/jqplot/jquery.jqplot.min.css" />
+	<link rel="stylesheet" type="text/css" href="/css/main.css" />
 </head>
 <body>
 	<div id="navigation">
-		<ul>
+		<div class="logo">
+			EASY ALERT
+		</div>
+		<ul class="navigation">
 			<li><a href="/">Dashboard</a></li>
 			<li><a href="/list/hosts/">Hosts</a></li>
 			<li><a href="/service/list/">Services</a></li>
 		</ul>
+		<div class="clear"></div>
 	</div>
-	<?= $sContent; ?>
+	<div id="content">
+		<?= $sContent; ?>
+	</div>
 </body>
 </html>

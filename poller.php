@@ -28,8 +28,10 @@
 ini_set('display_errors', true);
 error_reporting(E_ALL);
 
-require_once('library/EA/AutoLoader.php');
-EA_AutoLoader::init(array(), 'library/');
+$sPath = dirname(realpath(__FILE__));
+
+require_once($sPath . '/library/EA/AutoLoader.php');
+EA_AutoLoader::init(array(), $sPath . '/library/');
 
 $oHandler = new EA_Poller_Handler();
 $oHandler->handle();
