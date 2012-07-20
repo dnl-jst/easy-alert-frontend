@@ -14,7 +14,7 @@
 			<?php endif; ?>
 
 			<td class="state_<?= strtolower($aService['last_state']); ?>"><?= htmlspecialchars($aService['last_state']); ?></td>
-			<td><a href="/service/detail/?service_id=<?= $aService['hs_id'] ?>"><?= htmlspecialchars($aService['service_name']); ?></a></td>
+			<td><a href="/host/detail/?service_id=<?= $aService['hs_id'] ?>"><?= htmlspecialchars($aService['service_name']); ?></a></td>
 			<td><?= htmlspecialchars($aService['last_run']); ?></td>
 
 			<?php $iServiceCount++; ?>
