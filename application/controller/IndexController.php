@@ -31,13 +31,34 @@ class IndexController extends EA_Controller
 
 	public function init()
 	{
-		$this->oAuth = EA_Controller_Auth::getInstance();
-		$this->oAuth->authenticate('info@daniel-jost.de', 'test1234');
+		#$this->oAuth = EA_Controller_Auth::getInstance();
+		#$this->oAuth->authenticate('info@daniel-jost.de', 'test1234');
 	}
 
 	public function indexAction()
 	{
-		var_dump($this->oAuth->hasIdentity());
-		var_dump($this->oAuth->getIdentity());
+		$oQuery = new EA_Frontend_Queries_FetchServiceList();
+
+		$oDb = EA_Db::getInstance();
+		$aServices = $oDb->fetchAll($oQuery);
+
+		$aStateCount = array(
+			EA_Check_Abstract_Response::STATE_CRITICAL => 0,
+			EA_Check_Abstract_Response::STATE_WARNING => 0,
+			EA_Check_Abstract_Response::STATE_OK => 0
+		);
+
+		foreach ($aServices as $aService)
+		{
+			$sLastState = $aService['last_state'];
+
+			if (!empty($sLastState))
+			{
+				$aStateCount[$sLastState]++;
+			}
+		}
+
+		$this->oView->aStateCount = $aStateCount;
+		$this->oView->iTotalServices = count($aServices);
 	}
 }

@@ -92,3 +92,26 @@ td.state_critical {
 td.host_name {
 	vertical-align: top;
 }
+
+#health_meter table {
+	width: 350px;
+}
+
+#health_meter div.bar {
+	height: 20px;
+	float: left;
+	margin: 0;
+	padding: 0;
+}
+
+#health_meter div.state_ok {
+	background-color: green;
+}
+
+#health_meter div.state_warning {
+	background-color: yellow;
+}
+
+#health_meter div.state_critical {
+	background-color: red;
+}

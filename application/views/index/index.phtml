@@ -1,1 +1,29 @@
-index.phtml
+<h3>Dashboard</h3>
+
+<div id="state_overview">
+	<table class="state_overview" style="width: 200px;">
+		<?php foreach ($this->oView->aStateCount as $sState => $iCount): ?>
+			<tr>
+				<td class="state_<?= htmlspecialchars(strtolower($sState)); ?>">
+					<?= htmlspecialchars($sState); ?>
+				</td>
+				<td class="state_<?= htmlspecialchars(strtolower($sState)); ?>">
+					<?= htmlspecialchars($iCount); ?>
+				</td>
+			</tr>
+		<?php endforeach; ?>
+	</table>
+</div>
+<div id="health_meter">
+	<table class="health_meter">
+		<tr>
+			<td>Service health</td>
+			<td style="width: 200px">
+				<?php foreach (array_reverse($this->oView->aStateCount) as $sState => $iCount): ?>
+				<div class="bar state_<?= htmlspecialchars(strtolower($sState)); ?>" style="width: <?= intval($iCount / ($this->oView->iTotalServices / 100) * 2); ?>px">&nbsp;</div>
+				<?php endforeach; ?>
+				<div class="clear"></div>
+			</td>
+		</tr>
+	</table>
+</div>
