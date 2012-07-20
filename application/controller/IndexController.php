@@ -61,4 +61,37 @@ class IndexController extends EA_Controller
 		$this->oView->aStateCount = $aStateCount;
 		$this->oView->iTotalServices = count($aServices);
 	}
+
+	public function ajaxdashboardAction()
+	{
+
+		$oQuery = new EA_Frontend_Queries_FetchServiceList();
+
+		$oDb = EA_Db::getInstance();
+		$aServices = $oDb->fetchAll($oQuery);
+
+		$aStateCount = array(
+			EA_Check_Abstract_Response::STATE_CRITICAL => 0+ mt_rand(1,10),
+			EA_Check_Abstract_Response::STATE_WARNING => 0+ mt_rand(1,10),
+			EA_Check_Abstract_Response::STATE_OK => 0+ mt_rand(1,10)
+		);
+
+		foreach ($aServices as $aService)
+		{
+			$sLastState = $aService['last_state'];
+
+			if (!empty($sLastState))
+			{
+				$aStateCount[$sLastState]++;
+			}
+		}
+
+		$response = array();
+		$response['aStateCount'] = $aStateCount;
+		$response['iTotalServices'] = count($aServices);
+		$response['iTotalServices'] = array_sum($aStateCount);
+
+		$this->disableLayout();
+		echo json_encode($response);
+	}
 }

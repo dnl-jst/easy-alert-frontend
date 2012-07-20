@@ -7,7 +7,7 @@
 				<td class="state_<?= htmlspecialchars(strtolower($sState)); ?>">
 					<?= htmlspecialchars($sState); ?>
 				</td>
-				<td class="state_<?= htmlspecialchars(strtolower($sState)); ?>">
+				<td class="state_<?= htmlspecialchars(strtolower($sState)); ?> value">
 					<?= htmlspecialchars($iCount); ?>
 				</td>
 			</tr>
@@ -18,7 +18,7 @@
 	<table class="health_meter">
 		<tr>
 			<td>Service health</td>
-			<td style="width: 200px">
+			<td style="width: 205px">
 				<?php foreach (array_reverse($this->oView->aStateCount) as $sState => $iCount): ?>
 				<div class="bar state_<?= htmlspecialchars(strtolower($sState)); ?>" style="width: <?= intval($iCount / ($this->oView->iTotalServices / 100) * 2); ?>px">&nbsp;</div>
 				<?php endforeach; ?>
@@ -27,3 +27,37 @@
 		</tr>
 	</table>
 </div>
+
+<script type="text/javascript">
+	$(function() {
+		(function poll() {
+			setTimeout(
+				function() {
+					$.ajax({
+						url: '/index/ajaxdashboard/',
+						type: 'GET',
+						success: function(data) {
+							refreshDashboard(data);
+						},
+						dataType: 'json',
+						complete: poll,
+						timeout: 2000
+					});
+				},
+				5000
+			)
+		})();
+
+		function refreshDashboard(data)
+		{
+			$.each(data.aStateCount, function(sState, iCount)
+			{
+				$('#state_overview .state_' + sState.toLowerCase() + '.value').html(iCount);
+
+				$('#health_meter .bar.state_' + sState.toLowerCase()).animate({
+					width: parseInt(iCount / (data.iTotalServices / 100) * 2)
+				});
+			});
+		}
+	});
+</script>
