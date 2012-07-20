@@ -25,6 +25,8 @@
  * SUCH DAMAGE.
  */
 
+define('EA_FRONTEND_VERSION', '0.008');
+
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 

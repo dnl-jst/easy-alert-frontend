@@ -25,7 +25,9 @@
  * SUCH DAMAGE.
  */
 
-ini_set('display_errors', true);
+define('EA_FRONTEND_VERSION', '0.008');
+
+ini_set('display_errors', false);
 error_reporting(E_ALL);
 
 $sPath = dirname(realpath(__FILE__));
